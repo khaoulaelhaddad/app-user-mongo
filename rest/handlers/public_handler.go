@@ -3,13 +3,16 @@ package handlers
 import "github.com/gin-gonic/gin"
 
 func PublicRoutes(routerGroup *gin.RouterGroup) {
-	routerGroup.GET("/ping", Ping())
+	routerGroup.GET("/health", Health())
 }
 
-func Ping() gin.HandlerFunc {
+func Health() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
+		health := gin.H{
+			"server":      "ok",
+			"grpc_server": "ok",
+		}
+
+		c.JSON(200, health)
 	}
 }

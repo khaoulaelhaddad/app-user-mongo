@@ -37,7 +37,7 @@ func (s *Server) SetupStorage() {
 
 	serverAPIOptions := options.ServerAPI(options.ServerAPIVersion1)
 	clientOptions := options.Client().
-		ApplyURI("mongodb+srv://mongoadmin:VusySG2PE99IYRKr@cluster0.mv3mm.mongodb.net/myFirstDatabase?retryWrites=true&w=majority").
+		ApplyURI(utils.ApplyURI).
 		SetServerAPIOptions(serverAPIOptions)
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()

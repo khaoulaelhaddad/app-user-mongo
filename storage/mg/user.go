@@ -12,8 +12,8 @@ import (
 
 func (db *DbConnexion) InsertUser(ctx context.Context, user dto.UserDto) (id primitive.ObjectID, err error) {
 
-	collection := db.Db.Collection("users")
-	res, err := collection.InsertOne(ctx, bson.M{"name": user.Name, "age": user.Age})
+	userCollection := db.GetUsersCollection()
+	res, err := userCollection.InsertOne(ctx, bson.M{"name": user.Name, "age": user.Age})
 	if err != nil {
 
 		return id, err
@@ -27,8 +27,8 @@ func (db *DbConnexion) InsertUser(ctx context.Context, user dto.UserDto) (id pri
 }
 
 func (db *DbConnexion) SelectUserByID(ctx context.Context, id primitive.ObjectID) (user model.User, err error) {
-	collection := db.Db.Collection("users")
-	res := collection.FindOne(ctx, bson.M{"_id": id})
+	userCollection := db.GetUsersCollection()
+	res := userCollection.FindOne(ctx, bson.M{"_id": id})
 
 	if err != nil {
 
@@ -41,8 +41,8 @@ func (db *DbConnexion) SelectUserByID(ctx context.Context, id primitive.ObjectID
 }
 
 func (db *DbConnexion) SelectUsers(ctx context.Context) (users []model.User, err error) {
-	collection := db.Db.Collection("users")
-	res, err := collection.Find(ctx, bson.D{})
+	userCollection := db.GetUsersCollection()
+	res, err := userCollection.Find(ctx, bson.D{})
 	if err != nil {
 
 		return users, err
@@ -61,8 +61,8 @@ func (db *DbConnexion) SelectUsers(ctx context.Context) (users []model.User, err
 }
 
 func (db *DbConnexion) UpdateUser(ctx context.Context, id primitive.ObjectID, userDto dto.UserDto) (err error) {
-	collection := db.Db.Collection("users")
-	_, err = collection.UpdateOne(
+	userCollection := db.GetUsersCollection()
+	_, err = userCollection.UpdateOne(
 		ctx,
 		bson.M{"_id": id},
 		bson.M{"$set": userDto},
@@ -72,8 +72,8 @@ func (db *DbConnexion) UpdateUser(ctx context.Context, id primitive.ObjectID, us
 }
 
 func (db *DbConnexion) DeleteUser(ctx context.Context, id primitive.ObjectID) (err error) {
-	collection := db.Db.Collection("users")
-	_, err = collection.DeleteMany(
+	userCollection := db.GetUsersCollection()
+	_, err = userCollection.DeleteMany(
 		ctx,
 		bson.M{"_id": id},
 	)

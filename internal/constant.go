@@ -1,4 +1,4 @@
 package internal
 
-const User = "user"
+const User = "users"
 const UserID = "user_id"
